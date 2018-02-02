@@ -4,7 +4,7 @@ tags: ['deep-learning', 'playground']
 
 # Playground/image-segmentation
 
-This `TensorFlow` implementation is forked from @fregu856. You can find his original code here: https://github.com/fregu856/segmentation
+This `TensorFlow` implementation is forked from @fregu856. You can find his original code here: [@fregu856/segmentation.git](https://github.com/fregu856/segmentation).
 
 # segmentation
 
