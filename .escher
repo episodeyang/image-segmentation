@@ -1,0 +1,12 @@
+name: image-segmentation
+author: "Ge Yang <yangge1987@gmail.com>"
+envs:
+  PROJECT_DIR: "./"
+  DATA_DIR: "../../datasets/miniscapes"
+  OUTPUT_DIR: "../../datasets/miniscapes-processed"
+scripts:
+  preprocess: "{envs} python preprocess_data.py"
+master:
+  tag: "{name}-master"
+  ip: localhost
+  port: 2000
