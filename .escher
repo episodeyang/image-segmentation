@@ -1,11 +1,17 @@
 name: image-segmentation
 author: "Ge Yang <yangge1987@gmail.com>"
+# dot-env: ".env"
 envs:
   PROJECT_DIR: "./"
   DATA_DIR: "../../datasets/miniscapes"
   OUTPUT_DIR: "../../datasets/miniscapes-processed"
+  PYTHONPATH: "./"
 scripts:
   preprocess: "{envs} python preprocess_data.py"
+  train: "{envs} CUDA_VISIBLE_DEVICES=0 python train.py"
+  demo1: "{envs} CUDA_VISIBLE_DEVICES=1 python generate.py --data-path '../../datasets/miniscapes-processed/demoVideo/stuttgart_00' --results-dir '../../runs/image-segmentation/stuttgart_00'"
+  demo2: "{envs} CUDA_VISIBLE_DEVICES=2 python generate.py --data-path '../../datasets/miniscapes-processed/demoVideo/stuttgart_01' --results-dir '../../runs/image-segmentation/stuttgart_01'"
+  demo3: "{envs} CUDA_VISIBLE_DEVICES=3 python generate.py --data-path '../../datasets/miniscapes-processed/demoVideo/stuttgart_02' --results-dir '../../runs/image-segmentation/stuttgart_02'"
 master:
   tag: "{name}-master"
   ip: localhost

@@ -2,18 +2,11 @@ import cv2
 import _pickle as cPickle
 import os, sys
 import numpy as np
-import tensorflow as tf
 from collections import namedtuple
 import random
 
 from os import path
-from waterbear import DefaultBear
-
-ENV = DefaultBear(lambda: None, **os.environ)
-
-project_dir = ENV.PROJECT_DIR or "../image-segmentation"
-data_dir = ENV.DATA_DIR or "../cityscapes"
-output_dir = ENV.OUTPUT_DIR or "../cityscapes_processed"
+from config import data_dir, output_dir
 
 try:
     os.makedirs(output_dir)
@@ -65,7 +58,7 @@ labels = [
     Label('unlabeled', 0, 19, 'void', 0, False, True, (0, 0, 0)),
     Label('ego vehicle', 1, 19, 'void', 0, False, True, (0, 0, 0)),
     Label('rectification border', 2, 19, 'void', 0, False, True, (0, 0, 0)),
-    Label('out of roi', 3, 19, 'void', 0, False, True, (0, 0, 0)),
+    Label('writer of roi', 3, 19, 'void', 0, False, True, (0, 0, 0)),
     Label('static', 4, 19, 'void', 0, False, True, (0, 0, 0)),
     Label('dynamic', 5, 19, 'void', 0, False, True, (111, 74, 0)),
     Label('ground', 6, 19, 'void', 0, False, True, (81, 0, 81)),
@@ -118,11 +111,10 @@ val_gt_dir = path.join(cityscapes_dir, "gtFine/val/")
 # train_dirs = ["jena/"]
 # val_dirs = ["frankfurt/"]
 train_dirs = ["jena/", "zurich/", "weimar/", "ulm/", "tubingen/", "stuttgart/",
-            "strasbourg/", "monchengladbach/", "krefeld/", "hanover/",
-            "hamburg/", "erfurt/", "dusseldorf/", "darmstadt/", "cologne/",
-            "bremen/", "bochum/", "aachen/"]
+              "strasbourg/", "monchengladbach/", "krefeld/", "hanover/",
+              "hamburg/", "erfurt/", "dusseldorf/", "darmstadt/", "cologne/",
+              "bremen/", "bochum/", "aachen/"]
 val_dirs = ["frankfurt/", "munster/", "lindau/"]
-
 
 # get the path to all training images and their corresponding label image:
 train_img_paths = []
@@ -144,7 +136,7 @@ for dir_step, dir in enumerate(train_dirs):
 
         # resize the image without interpolation (want the image to still match
         # the corresponding label image which we reisize below) and save to
-        # project_dir/data:
+        # run_dir/data:
         img_small = cv2.resize(img, (new_img_width, new_img_height), interpolation=cv2.INTER_NEAREST)
         img_small_path = path.join(output_dir, img_id + ".png")
         saved = cv2.imwrite(img_small_path, img_small)
@@ -163,7 +155,7 @@ for dir_step, dir in enumerate(train_dirs):
         id_label = gt_img_small
         trainId_label = id_to_trainId_map_func(id_label)
 
-        # save the label image to project_dir/data:
+        # save the label image to run_dir/data:
         trainId_label_path = path.join(output_dir, img_id + "_trainId_label.png")
         saved = cv2.imwrite(trainId_label_path, trainId_label)
         if not saved:
@@ -268,7 +260,6 @@ cPickle.dump(val_trainId_label_paths,
 cPickle.dump(val_img_paths,
              open(path.join(output_dir, "val_img_paths.pkl"), "wb"))
 
-
 # augment the train data by flipping all train imgs:
 no_of_train_imgs = len(train_img_paths)
 print("number of train imgs before augmentation: %d " % no_of_train_imgs)
@@ -276,7 +267,6 @@ print("number of train imgs before augmentation: %d " % no_of_train_imgs)
 augmented_train_img_paths = []
 augmented_train_trainId_label_paths = []
 for step, (img_path, label_path) in enumerate(zip(train_img_paths, train_trainId_label_paths)):
-
     augmented_train_img_paths.append(img_path)
     augmented_train_trainId_label_paths.append(label_path)
 
