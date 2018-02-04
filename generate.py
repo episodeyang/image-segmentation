@@ -129,5 +129,3 @@ for step, frame_name in enumerate(tqdm(frame_names)):
         writer.write(frame)
 
 writer.release()
-
-exit()
