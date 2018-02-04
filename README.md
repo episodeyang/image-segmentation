@@ -10,7 +10,7 @@ the pyTorch version at https://github.com/e-lab/ENet-training
 
 ## Show me the money!
 
-Here is a gif of the trained network: CLick on the git to go to the youtube video.
+Here is a gif of the trained network: click on [the gif](https://www.youtube.com/watch?v=4OB9a3KgCXM) :point_left: to go to the youtube video.
 
 [![ENet segmentation cityscapes stuggart 00](./figures/cityscapes_stuggart_00_short.gif)](https://www.youtube.com/watch?v=4OB9a3KgCXM)
 
